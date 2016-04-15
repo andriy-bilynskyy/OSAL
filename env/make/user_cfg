@@ -1,0 +1,16 @@
+################################################################################
+# user configuration file
+# !!!add CCFLAGS_USER variable with user c++ compiler flags
+#    add CFLAGS_USER variable with user c compiler flags
+#    add LDFLAGS_USER variable with user linker flags
+################################################################################
+
+CCFLAGS_USER += -o0
+CCFLAGS_USER += -g3
+CCFLAGS_USER += -DTHREAD_DBG
+
+CFLAGS_USER  += -o0
+CFLAGS_USER  += -g3
+CFLAGS_USER  += -DTHREAD_DBG
+
+#LDFLAGS_USER

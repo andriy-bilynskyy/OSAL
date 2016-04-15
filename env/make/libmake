@@ -1,0 +1,76 @@
+################################################################################
+# Library creation makefile
+# !!!source folder should be located in ./src (without subfolders)
+#    all c++ files should have extension .cpp
+#    all c files should have extension .c
+#    all external library headers should have extension .hxx
+#    internal headers should have extensions .h
+# generated library name will be lib<folder_name>.a
+# generated library will be located in ./build/lib
+# generated library will be located in ./build/inc
+################################################################################
+
+include $(TOPDIR)/env/make/user_cfg
+
+LIBRARY   = ./build/lib/lib$(notdir $(CURDIR)).a
+CCSOURCES = $(wildcard ./src/*.cpp)
+CSOURCES  = $(wildcard ./src/*.c)
+HEADERS   = $(wildcard ./src/*.hxx)
+
+OBJECTS   = $(addprefix ./build/, $(CCSOURCES:./src/%.cpp=%.o))
+OBJECTS  += $(addprefix ./build/, $(CSOURCES:./src/%.c=%.o))
+LIBHXX    = $(addprefix ./build/inc/, $(HEADERS:./src/%=%))
+
+default: all
+
+help:
+	@echo "Static library creator"
+	@echo "  Available targets:"
+	@echo "    library    build static library (./build/lib)"
+	@echo "    headers    copy external library headers .hxx (./build/inc)"
+	@echo "    clean      remove all generated items"
+	@echo "    help       this information"
+	@echo "    all        default target, library + headers"
+	@echo "  Used variables:"
+	@echo "    TOPDIR       path to root folder, where env is located"
+	@echo "    CCFLAGS_USER user c++ compiler flags"
+	@echo "    CFLAGS_USER  c compiler flags"
+	@echo "  Tips:"
+	@echo "    All sources should be located in ./src folder (no subfolders)"
+	@echo "    external library headers should have an extension .hxx"
+	@echo "    internal library headers should have an extension .h"
+	@echo "    c++ sources should have extension .cpp"
+	@echo "    c sources should have extension .c"
+	@echo "    generated library name will be lib<Dir_Name>.a"
+	@echo "    default c++ compiler flags: -Wall -fmessage-length=0"
+	@echo "    default c compiler flags: -Wall -fmessage-length=0"
+
+all: library headers
+
+clean:
+	@echo cleaning: $(notdir $(CURDIR))
+	@rm -r -f ./build
+
+library: $(LIBRARY)
+
+headers: $(LIBHXX)
+ 
+$(LIBRARY): $(OBJECTS)
+	@echo library: $(notdir $(CURDIR))
+	@mkdir -p $(dir $@)
+	@ar rcs $(LIBRARY) $(OBJECTS)
+
+./build/%.o: ./src/%.cpp
+	@echo c++ building: $(notdir $(CURDIR)) - $<
+	@mkdir -p $(dir $@)
+	@g++ -Wall -fmessage-length=0 $(CCFLAGS_USER) -c $< -o $@
+
+./build/%.o: ./src/%.c
+	@echo c building: $(notdir $(CURDIR)) - $<
+	@mkdir -p $(dir $@)
+	@gcc -Wall -fmessage-length=0 $(CFLAGS_USER) -c $< -o $@
+
+./build/inc/%.hxx: ./src/%.hxx
+	@echo header: $(notdir $(CURDIR)) $<
+	@mkdir -p $(dir $@)
+	@cp $< $@

@@ -1,0 +1,43 @@
+################################################################################
+# !!!Envirounment makefile template
+#
+#    rename this file to "Makefile" for using
+#
+#    set TOPDIR with path to root filder where env is located
+#
+#    set DEPLIBS with path to all depended libraries,
+#    path from root where ./env is located
+#
+#    set SYSLIBS with all necessarily system libraries
+#
+#    add CCFLAGS_USER variable with user c++ compiler flags
+#    (addition to user_cfg)
+#
+#    add CFLAGS_USER variable with user c compiler flags
+#    (addition to user_cfg)
+#
+#    add LDFLAGS_USER variable with user linker flags
+#    (addition to user_cfg)
+#
+#    include executable makefile or library makefile
+################################################################################
+
+#TOPDIR = path2root, ex: ./..
+
+#DEPLIBS  = mylib1, only exemake
+#DEPLIBS += mylib2, only exemake
+
+#SYSLIBS  = syslib1, ex: pthread, only exemake
+#SYSLIBS += syslib2, ex: rt, only exemake
+
+CCFLAGS_USER  = usrflg1, ex -03
+CCFLAGS_USER += usrflg2, ex -g0
+
+CFLAGS_USER  = usrflg1, ex -DFOO
+CFLAGS_USER += usrflg2, ex -o1
+
+LDFLAGS_USER  = usrflg1, ex: -static, only exemake
+LDFLAGS_USER += usrflg2, ex: -s, only exemake
+
+#include $(TOPDIR)/env/make/exemake
+#include $(TOPDIR)/env/make/libmake
