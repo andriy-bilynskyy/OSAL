@@ -13,18 +13,18 @@ public:
 
     CThreadBase(std::string name, uint16_t msgSise, uint16_t msgCnt);
     virtual ~CThreadBase();
-    bool isAlive();
-    void join();
-    std::string name();
+    bool isAlive() const;
+    void join() const;
+    std::string name() const;
     bool writeMessage(std::string name, uint8_t buf[], uint16_t size, uint32_t timeout) const;
 
 private:
 
     mutable pthread_mutex_t m_mutex;
-    pthread_t       m_thread;
-    mqd_t           m_queue;
-    bool            m_queueCreated;
-    std::string     m_name;
+    pthread_t               m_thread;
+    mqd_t                   m_queue;
+    bool                    m_queueCreated;
+    std::string             m_name;
 
     static void wrapperThreadFunction(CThreadBase * obj);
 
@@ -32,7 +32,7 @@ private:
 
 protected:
 
-    int16_t readMessage(uint8_t buf[], uint16_t size, uint32_t timeout);
+    int16_t readMessage(uint8_t buf[], uint16_t size, uint32_t timeout) const;
     void run();
 };
 

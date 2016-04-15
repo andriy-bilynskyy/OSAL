@@ -95,7 +95,7 @@ void CThreadBase::wrapperThreadFunction(CThreadBase * obj)
     obj->threadFunction();
 }
 
-bool CThreadBase::isAlive()
+bool CThreadBase::isAlive() const
 {
     bool ret = false;
 
@@ -106,7 +106,7 @@ bool CThreadBase::isAlive()
     return ret;
 }
 
-void CThreadBase::join()
+void CThreadBase::join() const
 {
     int thrRes = pthread_join(m_thread, NULL);
     if(thrRes)
@@ -118,7 +118,7 @@ void CThreadBase::join()
     }
 }
 
-std::string CThreadBase::name()
+std::string CThreadBase::name() const
 {
     return m_name;
 }
@@ -185,7 +185,7 @@ CThreadBase::writeMessage(std::string name, uint8_t buf[], uint16_t size, uint32
     return ret;
 }
 
-int16_t CThreadBase::readMessage(uint8_t buf[], uint16_t size, uint32_t timeout)
+int16_t CThreadBase::readMessage(uint8_t buf[], uint16_t size, uint32_t timeout) const
 {
     int16_t ret = -1;
     pthread_mutex_lock(&m_mutex);
