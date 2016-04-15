@@ -16,9 +16,9 @@ CSOURCES  = $(wildcard ./src/*.c)
 OBJECTS   = $(addprefix ./build/, $(CCSOURCES:./src/%.cpp=%.o))
 OBJECTS  += $(addprefix ./build/, $(CSOURCES:./src/%.c=%.o))
 INCFLAGS  = $(addprefix -I$(TOPDIR)/, $(addsuffix /build/inc, $(DEPLIBS)))
-LIBFLAGS  = $(addprefix -l, $(SYSLIBS))
-LIBFLAGS += $(addprefix -L$(TOPDIR)/, $(addsuffix /build/lib, $(DEPLIBS)))
+LIBFLAGS  = $(addprefix -L$(TOPDIR)/, $(addsuffix /build/lib, $(DEPLIBS)))
 LIBFLAGS += $(addprefix -l, $(DEPLIBS))
+LIBFLAGS += $(addprefix -l, $(SYSLIBS))
 
 default: all
 
@@ -62,7 +62,7 @@ build: builddep $(EXEC)
 
 run: build
 	@echo running: $(notdir $(CURDIR))
-	$(EXEC)
+	@$(EXEC)
  
 $(EXEC): $(OBJECTS)
 	@echo linking: $(notdir $(CURDIR))

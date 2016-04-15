@@ -7,11 +7,11 @@
 # including executable makefile
 ################################################################################
 
-TOPDIR = ./..
+TOPDIR   = ./..
 
-DEPLIBS = multithread
+DEPLIBS  = multithread
 
-SYSLIBS += pthread
+SYSLIBS  = pthread
 SYSLIBS += rt
 
 include $(TOPDIR)/env/make/exemake

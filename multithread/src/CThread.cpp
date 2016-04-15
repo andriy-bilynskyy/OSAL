@@ -127,7 +127,6 @@ bool
 CThreadBase::writeMessage(std::string name, uint8_t buf[], uint16_t size, uint32_t timeout) const
 {
     bool ret = false;
-    pthread_mutex_lock(&m_mutex);
     mqd_t queue = mq_open(name.c_str(), O_WRONLY);
     if(-1 == queue)
     {
@@ -183,7 +182,6 @@ CThreadBase::writeMessage(std::string name, uint8_t buf[], uint16_t size, uint32
 #endif
         }
     }
-    pthread_mutex_unlock(&m_mutex);
     return ret;
 }
 
