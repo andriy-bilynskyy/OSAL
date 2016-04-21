@@ -5,7 +5,7 @@
 #include "CMtx.hxx"
 #include "CTiming.hxx"
 #include "CSemaphore.hxx"
-
+#include "CSmartPtr.hxx"
 
 class Sensor : public CThreadBase
 {

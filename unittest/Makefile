@@ -10,6 +10,7 @@
 TOPDIR   = ./..
 
 DEPLIBS  = multithread
+DEPLIBS += smartptr
 
 SYSLIBS  = pthread
 SYSLIBS += rt
