@@ -20,17 +20,17 @@ public:
 
     void threadFunction(void)
     {
-        for(uint16_t i = 0; i < 100; i++)
+        for(uint16_t i = 0u; i < 10u; i++)
         {
             std::stringstream ss;
-            int sensorValue = std::rand() % 1000;
+            int sensorValue = std::rand() % 1000u;
             ss << name() << " data is " << sensorValue << " : " <<
                          writeMessage("/actuator",
                                       reinterpret_cast<uint8_t*>(&sensorValue), sizeof(sensorValue),
                                       100u)
                                                                                        << std::endl;
             CLogger() << ss.str();
-            CTiming::sleep_mS(100);
+            CTiming::sleep_mS(100u);
 
         }
     }
@@ -78,7 +78,30 @@ public:
     }
 };
 
+class FOO
+{
+public:
 
+    FOO()
+    {
+        CLogger() << "constructor\n";
+        m_foo = 10;
+    }
+
+    ~FOO()
+    {
+        CLogger() << "destructor\n";
+    }
+
+    void foo()
+    {
+        m_foo ++;
+        CLogger() << "foo!!!\n";
+    }
+private:
+
+    int m_foo;
+};
 
 int main()
 {
@@ -87,11 +110,27 @@ int main()
 
     CLogger().setStream(std::cout);
 
-    Sensor      sen("/sensor", 0, 0);
-    Actuator    act("/actuator", sizeof(int), 10);
+    Sensor      sen("/sensor", 0u, 0u);
+    Actuator    act("/actuator", sizeof(int), 10u);
 
     sen.join();
     act.join();
+
+    CSmartPtr<FOO> a;
+    {
+        CSmartPtr<FOO> b;
+        {
+            CSmartPtr<FOO> c(new FOO);
+            a = c;
+            b = a;
+            c->foo();
+            a->foo();
+            b->foo();
+        }
+        a->foo();
+        b->foo();
+    }
+    a->foo();
 
     return 0;
 }
